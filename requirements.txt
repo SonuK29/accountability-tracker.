@@ -1,4 +1,4 @@
-feedparser==6.0.10
-pandas==2.1.0
-streamlit==1.26.0
-plotly==5.17.0
+feedparser
+pandas
+streamlit
+plotly
