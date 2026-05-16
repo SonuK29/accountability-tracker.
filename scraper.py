@@ -4,21 +4,46 @@ import re
 import os
 import pandas as pd
 
-# 1. Configuration
+# 1. Expanded Configuration (The "Media Diet")
 RSS_FEEDS = [
     "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
-    "https://feeds.feedburner.com/ndtvnews-india-news"
+    "https://feeds.feedburner.com/ndtvnews-india-news",
+    "https://www.newslaundry.com/feed", # Investigative
+    "https://aajtak.intoday.in/rss/topstories.xml", # Hindi Grassroots
+    "http://feeds.reuters.com/reuters/INtopNews" # Objective/Formal
 ]
 
+# 2. Bilingual & Tone-Adapted Keyword Dictionary
 KEYWORDS = {
-    "Pothole Accident": ["pothole", "bad road", "india"], # Added "india" just for testing
-    "Healthcare Scarcity": ["hospital oxygen", "doctor shortage", "no bed"],
-   
+    "Pothole / Road Hazard": [
+        "pothole", "bad road", "civic apathy", # General/Investigative
+        "infrastructure collapse", # Reuters style
+        "गड्ढा", "सड़क हादसा", "खराब सड़क" # Aaj Tak style
+    ],
+    "Healthcare Scarcity": [
+        "hospital oxygen", "doctor shortage", "no bed", "medical negligence", "medicine scarcity", "medicine shortage",
+        "healthcare crisis", # Reuters style
+        "अस्पताल", "ऑक्सीजन की कमी", "इलाज नहीं" # Aaj Tak style
+    ],
+    "Infrastructure Failure": [
+        "bridge collapse", "roof collapse", "building collapse", "civic failure",
+        "structural failure", # Reuters style
+        "पुल गिरा", "छत गिरी", "इमारत गिरी" # Aaj Tak style
+    ],
+    "VIP Movement Apathy": [
+        "vip movement", "ambulance delayed vip", "traffic halted vip",
+        "VIP काफिला", "एंबुलेंस फंसी" # Aaj Tak style
+    ],
+    "Water/Food Contamination": [
+        "food poisoning", "contaminated water", "mid-day meal tragedy",
+        "public health hazard", # Reuters style
+        "जहरीला खाना", "गंदा पानी", "फूड पॉइजनिंग" # Aaj Tak style
+    ]
 }
 
 CSV_FILE = "data.csv"
 
-# 2. The Extraction Logic
+# 3. Upgraded Bilingual Extraction Logic
 def fetch_and_parse():
     today_str = datetime.date.today().strftime("%Y-%m-%d")
     new_records = []
@@ -30,26 +55,31 @@ def fetch_and_parse():
                 title = entry.title.lower()
                 
                 for category, words in KEYWORDS.items():
+                    # We check if any of our English or Hindi words are in the headline
                     if any(word in title for word in words):
-                        # Simple logic: assume 1 casualty unless a number is mentioned near 'dead'
+                        
                         casualties = 1 
-                        match = re.search(r'(\d+)\s*(dead|killed|die|crushed|lives lost)', title)
+                        
+                        # Upgraded Regex: Looks for numbers near English OR Hindi death terms
+                        # \d+ finds the number. The rest looks for "dead", "killed", "की मौत" (deaths), "मारे गए" (were killed)
+                        match = re.search(r'(\d+)\s*(dead|killed|die|crushed|lives lost|की मौत|मारे गए|शव)', title)
                         if match:
                             casualties = int(match.group(1))
 
                         new_records.append({
                             "Date": today_str,
                             "Category": category,
-                            "Location": "India", # Placeholder for manual or future AI extraction
+                            "Location": "India", 
                             "Casualties": casualties,
-                            "Headline": entry.title,
+                            "Headline": entry.title, # Will save Hindi text perfectly
                             "Source_URL": entry.link
                         })
-                        break # Stop checking other categories if one matches
+                        break 
         except Exception as e:
             print(f"Failed to parse {feed_url}: {e}")
 
     return new_records
+
 
 # 3. Saving the Data
 def update_csv():
