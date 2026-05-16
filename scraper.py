@@ -11,10 +11,9 @@ RSS_FEEDS = [
 ]
 
 KEYWORDS = {
-    "Pothole Accident": ["pothole", "bad road"],
+    "Pothole Accident": ["pothole", "bad road", "india"], # Added "india" just for testing
     "Healthcare Scarcity": ["hospital oxygen", "doctor shortage", "no bed"],
-    "Infrastructure Failure": ["bridge collapse", "roof collapse"],
-    "VIP Movement": ["vip movement", "ambulance delayed vip"]
+   
 }
 
 CSV_FILE = "data.csv"
