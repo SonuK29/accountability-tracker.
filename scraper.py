@@ -16,7 +16,7 @@ RSS_FEEDS = [
 # 2. Bilingual & Tone-Adapted Keyword Dictionary
 KEYWORDS = {
     "Pothole / Road Hazard": [
-        "pothole", "bad road", "civic apathy", # General/Investigative
+        "pothole", "bad road", "civic apathy", "India", # General/Investigative
         "infrastructure collapse", # Reuters style
         "गड्ढा", "सड़क हादसा", "खराब सड़क" # Aaj Tak style
     ],
