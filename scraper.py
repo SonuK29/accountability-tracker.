@@ -16,13 +16,13 @@ RSS_FEEDS = [
 # 2. Bilingual & Tone-Adapted Keyword Dictionary
 KEYWORDS = {
     "Pothole / Road Hazard": [
-        "pothole", "bad road", "civic apathy", "India", # General/Investigative
+        "pothole", "bad road", "civic apathy", "india", # General/Investigative
         "infrastructure collapse", # Reuters style
         "गड्ढा", "सड़क हादसा", "खराब सड़क" # Aaj Tak style
     ],
     "Healthcare Scarcity": [
         "hospital oxygen", "doctor shortage", "no bed", "medical negligence", "medicine scarcity", "medicine shortage",
-        "healthcare crisis", # Reuters style
+        "healthcare crisis", "india", # Reuters style
         "अस्पताल", "ऑक्सीजन की कमी", "इलाज नहीं" # Aaj Tak style
     ],
     "Infrastructure Failure": [
